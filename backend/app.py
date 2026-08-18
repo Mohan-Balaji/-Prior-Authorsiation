@@ -14,14 +14,14 @@ app = FastAPI(
     openapi_url="/openapi.json"
 )
 
-frontend_origin = os.getenv("FRONTEND_ORIGIN", "http://localhost:5173")
+frontend_origin = os.getenv("FRONTEND_ORIGIN", "https://prioraurthazotion-bvhfd2c6a2f2fnht.centralindia-01.azurewebsites.net")
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
         "http://127.0.0.1:5173",
-        "http://localhost:3000",'https://prioraurthazotion-bvhfd2c6a2f2fnht.centralindia-01.azurewebsites.net''https://prioraurthazotion-bvhfd2c6a2f2fnht.centralindia-01.azurewebsites.net',
+        "http://localhost:3000",
         
         frontend_origin
     ],
