@@ -21,7 +21,8 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:5173",
         "http://127.0.0.1:5173",
-        "http://localhost:3000",
+        "http://localhost:3000",'https://prioraurthazotion-bvhfd2c6a2f2fnht.centralindia-01.azurewebsites.net''https://prioraurthazotion-bvhfd2c6a2f2fnht.centralindia-01.azurewebsites.net',
+        
         frontend_origin
     ],
     allow_credentials=True,
