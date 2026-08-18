@@ -7,7 +7,12 @@ load_dotenv()
 
 from backend.routes import auth_routes, patient_routes, request_routes, review_routes, code_routes
 
-app = FastAPI(title="Prior Authorization System API")
+app = FastAPI(
+    title="Prior Authorization System API",
+    docs_url="/docs",
+    redoc_url="/redoc",
+    openapi_url="/openapi.json"
+)
 
 frontend_origin = os.getenv("FRONTEND_ORIGIN", "http://localhost:5173")
 
