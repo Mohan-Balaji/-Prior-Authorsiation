@@ -1,6 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-# More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
 name: Build and deploy Python app to Azure Web App - priorAurthazotion-backend
 
 on:
@@ -12,47 +9,58 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read  # Required for actions/checkout
-    defaults:
-      run:
-        working-directory: backend  # All commands run inside /backend
-    steps:
-      - uses: actions/checkout@v4
 
-      - name: Set up Python version
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
-      - name: Create and start virtual environment, install dependencies
+      - name: Install dependencies
+        working-directory: backend
         run: |
-          python -m venv antenv
-          source antenv/bin/activate
+          python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Upload ONLY the backend folder contents as the deployment artifact.
-      # This makes 'backend/' the root of wwwroot on Azure, so app.py sits
-      # directly at /home/site/wwwroot/app.py instead of a nested subfolder.
-      - name: Upload artifact for deployment jobs
+      - name: Verify application
+        working-directory: backend
+        run: |
+          python -c "import uvicorn; print('Uvicorn installed successfully')"
+
+      - name: Prepare deployment package
+        run: |
+          mkdir -p deploy
+          cp -r backend/* deploy/
+          rm -rf deploy/antenv
+          rm -rf deploy/__pycache__
+
+      - name: Upload deployment artifact
         uses: actions/upload-artifact@v4
         with:
           name: python-app
-          path: |
-            backend
-            !backend/antenv/
+          path: deploy/
+
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
+
     permissions:
-      id-token: write  # Required for requesting the JWT
-      contents: read   # Required for actions/checkout
+      id-token: write
+      contents: read
+
     steps:
-      - name: Download artifact from build job
+      - name: Download deployment artifact
         uses: actions/download-artifact@v4
         with:
           name: python-app
+          path: ./deploy
 
       - name: Login to Azure
         uses: azure/login@v2
@@ -61,9 +69,18 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_5E42644D523045258137F37300A139F2 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_07AED3FE07C94B43B02F4E358C5F57EF }}
 
+      - name: Enable Azure build during deployment
+        uses: azure/cli@v2
+        with:
+          inlineScript: |
+            az webapp config appsettings set \
+              --resource-group "Prior-Authorization" \
+              --name "priorAurthazotion-backend" \
+              --settings SCM_DO_BUILD_DURING_DEPLOYMENT=true
+
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
-        id: deploy-to-webapp
         with:
           app-name: 'priorAurthazotion-backend'
           slot-name: 'Production'
+          package: ./deploy
