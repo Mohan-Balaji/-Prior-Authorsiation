@@ -40,6 +40,7 @@ jobs:
           cp backend/pdf_ocr.py ./pdf_ocr.py
           cp -r backend/routes ./routes
           cp -r backend/models ./models
+          cp backend/gunicorn.conf.py ./gunicorn.conf.py
 
       # 🛠️ Local Build Section (Optional)
       # The following section in your workflow is designed to catch build issues early on the client side, before deployment. This can be helpful for debugging and validation. However, if this step significantly increases deployment time and early detection is not critical for your workflow, you may remove this section to streamline the deployment process.
