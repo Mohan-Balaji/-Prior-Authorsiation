@@ -77,13 +77,4 @@ jobs:
         with:
           app-name: 'priorAurthazotion-backend'
           slot-name: 'Production'
-
-      # Deployment does not change Web App Configuration settings.
-      # After this job succeeds, in the Azure Portal confirm:
-      #   1. Configuration > General settings > Startup Command:
-      #        python -m uvicorn backend.app:app --host 0.0.0.0 --port 8000
-      #   2. Configuration > Application settings:
-      #        SCM_DO_BUILD_DURING_DEPLOYMENT = true
-      # Both are one-time settings; they don't need to be in this workflow,
-      # but a deploy will keep failing without them regardless of what
-      # this file does.
+          app-settings: '-StartupCommand "python -m uvicorn backend.app:app --host 0.0.0.0 --port 8000" -SCM_DO_BUILD_DURING_DEPLOYMENT true'
