@@ -5,10 +5,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-try:
-    from backend.routes import auth_routes, patient_routes, request_routes, review_routes, code_routes
-except ImportError:
-    from routes import auth_routes, patient_routes, request_routes, review_routes, code_routes
+from routes import auth_routes, patient_routes, request_routes, review_routes, code_routes
 
 app = FastAPI(
     title="Prior Authorization System API",

@@ -26,7 +26,7 @@ from pathlib import Path
 from typing import List, Dict, Any, Tuple
 
 # Ensure project root is in sys.path
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent
 if str(BASE_DIR) not in sys.path:
     sys.path.insert(0, str(BASE_DIR))
 
@@ -43,10 +43,7 @@ try:
 except ImportError:
     Groq = None
 
-try:
-    from backend.db import get_kb_db, get_system_db
-except ImportError:
-    from db import get_kb_db, get_system_db
+from db import get_kb_db, get_system_db
 
 # ------------------------------------------------------------------------------
 # CONFIGURATION & CONSTANTS

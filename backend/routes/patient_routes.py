@@ -2,14 +2,9 @@ import os
 import re
 import pandas as pd
 from fastapi import APIRouter, HTTPException, Depends
-try:
-    from backend.db import get_system_db
-    from backend.auth import require_role
-    from backend.validators import validate_patient_id
-except ImportError:
-    from db import get_system_db
-    from auth import require_role
-    from validators import validate_patient_id
+from db import get_system_db
+from auth import require_role
+from validators import validate_patient_id
 
 router = APIRouter(prefix="/patients", tags=["patients"])
 

@@ -17,14 +17,32 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Copy requirements to root for Oryx
-        run: cp backend/requirements.txt ./requirements.txt
+      - name: Flatten backend to root
+        run: |
+          cp backend/requirements.txt ./requirements.txt
+          cp backend/app.py ./app.py
+          cp backend/db.py ./db.py
+          cp backend/auth.py ./auth.py
+          cp backend/validators.py ./validators.py
+          cp backend/urgency.py ./urgency.py
+          cp backend/rate_limiter.py ./rate_limiter.py
+          cp backend/decision_engine.py ./decision_engine.py
+          cp backend/eval_logger.py ./eval_logger.py
+          cp backend/evaluation.py ./evaluation.py
+          cp backend/ml_predictor.py ./ml_predictor.py
+          cp backend/pdf_ocr.py ./pdf_ocr.py
+          cp -r backend/routes ./routes
+          cp -r backend/models ./models
+
+      - name: Remove oryx build cache
+        run: rm -f oryx-manifest.toml
 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v4
         with:
           name: python-app
           path: .
+          clean: true
 
   deploy:
     runs-on: ubuntu-latest
