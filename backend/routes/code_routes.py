@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends
-from backend.db import get_system_db
-from backend.auth import get_current_user
-from backend.decision_engine import simplify_description
+from ..db import get_system_db
+from ..auth import get_current_user
+from ..decision_engine import simplify_description
 
 router = APIRouter(prefix="/codes", tags=["codes"])
 

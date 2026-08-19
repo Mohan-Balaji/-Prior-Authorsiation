@@ -1,9 +1,9 @@
 import uuid
 from fastapi import APIRouter, HTTPException, Response, Request
 from pydantic import BaseModel, EmailStr
-from backend.db import get_system_db
-from backend.auth import hash_password, verify_password, issue_token
-from backend.rate_limiter import check_rate_limit
+from ..db import get_system_db
+from ..auth import hash_password, verify_password, issue_token
+from ..rate_limiter import check_rate_limit
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -80,7 +80,7 @@ def get_me(request: Request):
     if not token:
         raise HTTPException(status_code=401, detail="Not authenticated")
     import jwt
-    from backend.auth import SECRET_KEY
+    from ..auth import SECRET_KEY
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
         conn = get_system_db()

@@ -3,15 +3,15 @@ import json
 from typing import Optional
 from fastapi import APIRouter, HTTPException, Depends, Request, UploadFile, File
 from pydantic import BaseModel
-from backend.db import get_system_db, SYSTEM_DB_CONFIG
-from backend.auth import require_role, get_current_user
-from backend.validators import validate_hcpcs, validate_icd10, validate_patient_id
-from backend.rate_limiter import check_rate_limit
-from backend.urgency import compute_urgency
-from backend.decision_engine import DecisionEngine, simplify_description
-from backend.eval_logger import EvaluatedDecisionEngine
-from backend.ml_predictor import predict_approval_prob
-from backend.pdf_ocr import parse_and_extract_pdf
+from ..db import get_system_db, SYSTEM_DB_CONFIG
+from ..auth import require_role, get_current_user
+from ..validators import validate_hcpcs, validate_icd10, validate_patient_id
+from ..rate_limiter import check_rate_limit
+from ..urgency import compute_urgency
+from ..decision_engine import DecisionEngine, simplify_description
+from ..eval_logger import EvaluatedDecisionEngine
+from ..ml_predictor import predict_approval_prob
+from ..pdf_ocr import parse_and_extract_pdf
 
 router = APIRouter(prefix="/requests", tags=["requests"])
 engine = EvaluatedDecisionEngine(SYSTEM_DB_CONFIG)

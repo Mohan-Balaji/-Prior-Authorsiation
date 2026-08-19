@@ -2,14 +2,14 @@ import os
 import re
 import pandas as pd
 from fastapi import APIRouter, HTTPException, Depends
-from backend.db import get_system_db
-from backend.auth import require_role
-from backend.validators import validate_patient_id
+from ..db import get_system_db
+from ..auth import require_role
+from ..validators import validate_patient_id
 
 router = APIRouter(prefix="/patients", tags=["patients"])
 
 # Load patients.csv lookup dictionary on module init for rich demographics
-CSV_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "patient_db", "patients.csv")
+CSV_PATH = os.path.join(os.path.dirname(__file__), "..", "patient_db", "patients.csv")
 csv_patients_map = {}
 if os.path.exists(CSV_PATH):
     try:

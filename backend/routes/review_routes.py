@@ -3,10 +3,10 @@ from datetime import datetime
 from typing import Optional
 from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
-from backend.db import get_system_db
-from backend.auth import require_role
-from backend.decision_engine import simplify_description
-from backend.ml_predictor import predict_approval_prob
+from ..db import get_system_db
+from ..auth import require_role
+from ..decision_engine import simplify_description
+from ..ml_predictor import predict_approval_prob
 
 router = APIRouter(tags=["review"])
 
