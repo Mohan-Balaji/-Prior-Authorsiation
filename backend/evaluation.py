@@ -43,7 +43,10 @@ try:
 except ImportError:
     Groq = None
 
-from .db import get_kb_db, get_system_db
+try:
+    from backend.db import get_kb_db, get_system_db
+except ImportError:
+    from db import get_kb_db, get_system_db
 
 # ------------------------------------------------------------------------------
 # CONFIGURATION & CONSTANTS
@@ -56,7 +59,7 @@ GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
 GROQ_MODEL_FALLBACK = os.getenv("GROQ_MODEL_FALLBACK", "llama3-70b-8192")
 
-REPORTS_DIR = BASE_DIR / "evaluation_reports"
+REPORTS_DIR = BASE_DIR / "backend" / "evaluation_reports"
 REPORTS_DIR.mkdir(parents=True, exist_ok=True)
 
 

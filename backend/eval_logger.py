@@ -2,7 +2,10 @@ import time
 import re
 import pymysql
 import pymysql.cursors
-from .decision_engine import DecisionEngine
+try:
+    from backend.decision_engine import DecisionEngine
+except ImportError:
+    from decision_engine import DecisionEngine
 
 CREATE_EVAL_TABLE_SQL = """
 CREATE TABLE IF NOT EXISTS eval_run_log (
